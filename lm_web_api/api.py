@@ -2,7 +2,6 @@ import argparse
 from flask import Flask
 from flask import request, jsonify
 from flask_httpauth import HTTPTokenAuth
-from lm.inference import ModelWrapper
 from os import environ
 from os import path
 from paste.translogger import TransLogger
@@ -10,7 +9,7 @@ from pathlib import Path
 from waitress import serve
 import sys
 
-import lm_web_api
+from lm_web_api.connector import ModelApiConnector
 
 AUTH_TOKEN = environ['AUTH_TOKEN'] if 'AUTH_TOKEN' in environ else '337b14a7-5865-4b24-a2f0-44d98133c860'
 
@@ -33,15 +32,13 @@ def gpt2_api():
         obj = request.json
     except:
         return {'error': 'json request', 'type': 'JsonError', 'data': request.data}
-
     try:
-        # obj['result'] = WordVector.calculate(payload=obj['payload'], operation=obj['operation'])
-        obj['result'] = 'Test'
+        obj['predictions'] = app.config['model'].responses_for_text(obj['text'])
         return obj
     except KeyError as err:
         return {'error': err.args[0], 'type': 'KeyError'}
-    except:
-        return {'error':  ("Error: %s" % sys.exc_info()[0]), 'type': 'OtherError'}
+    # except:
+    #     return {'error':  ("Error: %s" % sys.exc_info()[0]), 'type': 'OtherError'}
 
 @app.errorhandler(500)
 def internal_error(e):
@@ -59,7 +56,7 @@ def main():
     arg('--host', default='localhost')
     args = parser.parse_args()
 
-    # app.config['model'] = ModelWrapper.load(args.model_root)
+    app.config['model'] = ModelApiConnector(args.model_root)
     serve(TransLogger(app), host=args.host, port=args.port)
 
 if __name__ == "__main__":
