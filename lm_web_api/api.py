@@ -33,13 +33,16 @@ def gpt2_api():
         obj = request.json
     except:
         return {'error': 'json request', 'type': 'JsonError', 'data': request.data}
-    try:
-        t0 = time.time()
-        obj['result'] = app.config['model'].responses_for_text(obj['text'], obj['params'])
-        obj['time'] = time.time() - t0
-        return obj
-    except KeyError as err:
-        return {'error': err.args[0], 'type': 'KeyError'}
+    # try:
+    text = obj['text'] if 'text' in obj else 'Ich mag veganes Hackfleisch vom Stader Huhn.'
+    params = obj['params'] if 'params' in obj else {}
+
+    t0 = time.time()
+    obj['result'] = app.config['model'].responses_for_text(text, params)
+    obj['time'] = time.time() - t0
+    return obj
+    # except KeyError as err:
+    #     return {'error': err.args[0], 'type': 'KeyError'}
     # except:
     #     return {'error':  ("Error: %s" % sys.exc_info()[0]), 'type': 'OtherError'}
 

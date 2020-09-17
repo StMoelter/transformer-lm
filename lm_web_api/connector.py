@@ -10,7 +10,7 @@ class ModelApiConnector:
         predicitions = []
 
         for i in range(3):
-            predicitions.append(self.generate_text(tokens))
+            predicitions.append(self.generate_text(tokens, params))
         return {"predicitions": predicitions, "params": params}
 
     def generate_text(self, tokens, params):
@@ -28,19 +28,22 @@ class ModelApiConnector:
         tokens = tokens[:self.model.model.hparams.n_ctx]
         return tokens
 
-    def extract_param(self, params):
+    def extract_params(self, params):
         return {
-            "tokens_to_generate": self.normalize(params, 'tokens_to_generate', 5, 40, 20),
-            "top_k": self.normalize(params, 'top_k', 1, 20, 5),
-            "top_p": self.normalize(params, 'top_p', 1, 20, 5),
-            "temperature": self.normalize(params, 'temperature', 0, 2, 1.0),
+            "tokens_to_generate": self.normalize_i(params, 'tokens_to_generate', 5, 40, 20),
+            "top_k": self.normalize_i(params, 'top_k', 0, 20, 5),
+            "top_p": self.normalize_i(params, 'top_p', 0, 20, 0),
+            "temperature": self.normalize_f(params, 'temperature', 0.0, 2.0, 1.0),
         }
 
-    def normalize(self, params, name, min, max, default):
+    def normalize_i(self, params, name, min, max, default):
+        return int(self.normalize_f(params, name, min, max, default))
+
+    def normalize_f(self, params, name, min, max, default):
         if not(name in params):
             return default
         try:
-            value = int(params['name'])
+            value = float(params[name])
             if value < min:
                 return min
             if value > max:
