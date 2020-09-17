@@ -8,6 +8,7 @@ from paste.translogger import TransLogger
 from pathlib import Path
 from waitress import serve
 import sys
+import time
 
 from lm_web_api.connector import ModelApiConnector
 
@@ -33,7 +34,9 @@ def gpt2_api():
     except:
         return {'error': 'json request', 'type': 'JsonError', 'data': request.data}
     try:
-        obj['predictions'] = app.config['model'].responses_for_text(obj['text'])
+        t0 = time.time()
+        obj['result'] = app.config['model'].responses_for_text(obj['text'], obj['params'])
+        obj['time'] = time.time() - t0
         return obj
     except KeyError as err:
         return {'error': err.args[0], 'type': 'KeyError'}
