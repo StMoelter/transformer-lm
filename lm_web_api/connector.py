@@ -25,7 +25,7 @@ class ModelApiConnector:
 
     def tokenizer(self, text):
         tokens = [self.model.END_OF_TEXT] + self.model.tokenize(text)
-        tokens = tokens[:self.model.model.hparams.n_ctx]
+        tokens = tokens[:900]
         return tokens
 
     def extract_params(self, params):
