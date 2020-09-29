@@ -7,8 +7,11 @@ import Row from 'react-bootstrap/Row';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import GeneratedText from './components/GeneratedText'
+import Generator from './components/Generator'
 import SampleText from './components/SampleText'
+import Temperature from './components/Temperature'
 import TopK from './components/TopK'
+import Tokens from './components/Tokens'
 
 function App() {
   return (
@@ -21,10 +24,10 @@ function App() {
         <Col><SampleText /></Col>
       </Row>
       <Row className="mt-3">
-        <Col></Col>
+        <Col><Generator /></Col>
         <Col><TopK /></Col>
-        <Col></Col>
-        <Col></Col>
+        <Col><Temperature /></Col>
+        <Col><Tokens /></Col>
       </Row>
     </Container>
   );

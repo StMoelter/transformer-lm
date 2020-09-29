@@ -5,12 +5,12 @@ import Slider from 'react-rangeslider'
 
 import 'react-rangeslider/lib/index.css'
 
-export default class TopK extends React.Component {
+export default class Tokens extends React.Component {
   constructor (props, context) {
     super(props, context)
     this.state = {
-      value: 20,
-      resetValue: 20,
+      value: 40,
+      resetValue: 40,
     }
     this.resetValue = this.resetValue.bind(this)
   }
@@ -33,7 +33,7 @@ export default class TopK extends React.Component {
     const { value } = this.state
     return (
       <Card>
-        <Card.Header>Top K</Card.Header>
+        <Card.Header>Tokens</ Card.Header>
         <Card.Body>
           <Slider
             min={1}
