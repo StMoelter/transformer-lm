@@ -2,35 +2,24 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import React from 'react';
 import Slider from 'react-rangeslider'
+import { connect } from "react-redux";
 
 import 'react-rangeslider/lib/index.css'
 
-export default class TopK extends React.Component {
+class TopK extends React.Component {
   constructor (props, context) {
     super(props, context)
-    this.state = {
-      value: 20,
-      resetValue: 20,
-    }
     this.resetValue = this.resetValue.bind(this)
   }
 
-  handleChange = (value) => {
-    this.setState({
-      value: value
-    })
-  }
-
   resetValue = (event) => {
-    const { resetValue } = this.state
-    this.setState({
-      value: resetValue
-    })
+    this.props.resetTopK()
     event.target.blur()
   }
 
   render() {
-    const { value } = this.state
+    const topk = this.props.topk
+    const setTopK = this.props.setTopK
     return (
       <Card>
         <Card.Header>Top K</Card.Header>
@@ -39,14 +28,14 @@ export default class TopK extends React.Component {
             min={1}
             max={100}
             step={1}
-            value={value}
-            onChange={this.handleChange}
+            value={topk}
+            onChange={setTopK}
           />
         </Card.Body>
         <Card.Footer>
           <div className="d-flex">
             <div className="p-2">
-              <Button as="input" type="button" value={String(value).padStart(3, '0')} size="sm" disabled/>
+              <Button as="input" type="button" value={String(topk).padStart(3, '0')} size="sm" disabled/>
             </div>
             <div className="p-2 ml-auto">
               <Button as="input" type="reset" value="Reset" size="sm" onClick={this.resetValue}/>
@@ -57,3 +46,16 @@ export default class TopK extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  topk: state.topk,
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setTopK: (topk) => { dispatch({ type: "setTopK", topk: topk }) },
+    resetTopK: () => { dispatch({ type: "resetTopK" }) },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopK)

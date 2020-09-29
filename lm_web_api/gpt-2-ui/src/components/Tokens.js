@@ -2,51 +2,41 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import React from 'react';
 import Slider from 'react-rangeslider'
+import { connect } from "react-redux";
+
 
 import 'react-rangeslider/lib/index.css'
 
-export default class Tokens extends React.Component {
+class Tokens extends React.Component {
   constructor (props, context) {
     super(props, context)
-    this.state = {
-      value: 40,
-      resetValue: 40,
-    }
     this.resetValue = this.resetValue.bind(this)
   }
 
-  handleChange = (value) => {
-    this.setState({
-      value: value
-    })
-  }
-
   resetValue = (event) => {
-    const { resetValue } = this.state
-    this.setState({
-      value: resetValue
-    })
+    this.props.resetTokens()
     event.target.blur()
   }
 
   render() {
-    const { value } = this.state
+    const tokens = this.props.tokens
+    const setTokens = this.props.setTokens
     return (
       <Card>
-        <Card.Header>Tokens</ Card.Header>
+        <Card.Header>Tokens</Card.Header>
         <Card.Body>
           <Slider
             min={1}
             max={100}
             step={1}
-            value={value}
-            onChange={this.handleChange}
+            value={tokens}
+            onChange={setTokens}
           />
         </Card.Body>
         <Card.Footer>
           <div className="d-flex">
             <div className="p-2">
-              <Button as="input" type="button" value={String(value).padStart(3, '0')} size="sm" disabled/>
+              <Button as="input" type="button" value={String(tokens).padStart(3, '0')} size="sm" disabled/>
             </div>
             <div className="p-2 ml-auto">
               <Button as="input" type="reset" value="Reset" size="sm" onClick={this.resetValue}/>
@@ -57,3 +47,16 @@ export default class Tokens extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  tokens: state.tokens,
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setTokens: (tokens) => { dispatch({ type: "setTokens", tokens: tokens }) },
+    resetTokens: () => { dispatch({ type: "resetTokens" }) },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tokens)
