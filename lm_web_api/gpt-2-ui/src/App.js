@@ -1,25 +1,32 @@
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Row from 'react-bootstrap/Row';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import GeneratedText from './components/GeneratedText'
+import SampleText from './components/SampleText'
+import TopK from './components/TopK'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Navbar  bg="primary" variant="dark">
+        <Navbar.Brand href="#">gpt-2 ui by Steffen</Navbar.Brand>
+      </Navbar>
+      <Row className="mt-3">
+        <Col><GeneratedText /></Col>
+        <Col><SampleText /></Col>
+      </Row>
+      <Row className="mt-3">
+        <Col></Col>
+        <Col><TopK /></Col>
+        <Col></Col>
+        <Col></Col>
+      </Row>
+    </Container>
   );
 }
 
