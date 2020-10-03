@@ -38,6 +38,34 @@ const reducer  = (state = initialState, action) => {
         ...state,
         sampletext: action.sampletext,
       }
+    case 'FETCH_PREDICTIONS_LOADING':
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      }
+    case 'FETCH_PREDICTIONS_ERROR':
+      return {
+        ...state,
+        errorMessage: action.errorMessage,
+        isLoading: false,
+      }
+    case 'FETCH_PREDICTIONS_SUCCESS':
+      return {
+        ...state,
+        predictions: action.predictions,
+        errorMessage: '',
+        isLoading: false,
+      }
+    case 'addText':
+      return {
+        ...state,
+        generatedtext: state.generatedtext + ' ' + action.text
+      }
+    case 'setText':
+      return {
+        ...state,
+        generatedtext: action.generatedtext
+      }
     default:
       return state
   }

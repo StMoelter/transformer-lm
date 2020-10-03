@@ -5,10 +5,11 @@ import App from './App';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import rootReducer from './data/reducer'
+import middleware from './middleware/Middleware'
 
 import * as serviceWorker from './serviceWorker';
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, middleware)
 
 ReactDOM.render(
   <React.StrictMode>
