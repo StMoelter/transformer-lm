@@ -16,12 +16,6 @@ AUTH_TOKEN = environ['AUTH_TOKEN'] if 'AUTH_TOKEN' in environ else '337b14a7-586
 
 app = Flask(__name__, static_url_path='/gpt-2-ui/build/static')
 auth = HTTPTokenAuth(scheme='Bearer')
-build_path = path.join(path.abspath(path.dirname(__file__)), 'gpt-2-ui', 'build')
-mimetypes = {
-    ".css": "text/css",
-    ".html": "text/html",
-    ".js": "application/javascript",
-}
 
 @auth.verify_token
 def verify_token(token):
@@ -32,17 +26,8 @@ def verify_token(token):
 def catch_all(path):
     if path == '/':
         path = 'index.html'
-    print("##############################")
-    print(path)
-    print("##############################")
-    print('')
     return send_from_directory('gpt-2-ui/build', path)
-    # mimetype = mimetypes.get(os.path.splitext(path)[1], "text/html")
-    # try:
-    #    content = open(os.path.join(build_path, path)).read()
-    # except IOError:
-    #    content =
-    # return Response(content, mimetype=mimetype)
+
 
 @app.route('/gpt2', methods=['POST'])
 @auth.login_required
@@ -57,7 +42,7 @@ def gpt2_api():
 
     t0 = time.time()
     obj['result'] = app.config['model'].responses_for_text(text, params)
-    obj['time'] = time.time() - t0
+    obj['time'] = format(time.time() - t0, '.3f')
     return obj
     # except KeyError as err:
     #     return {'error': err.args[0], 'type': 'KeyError'}

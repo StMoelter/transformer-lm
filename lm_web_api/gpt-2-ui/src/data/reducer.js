@@ -52,9 +52,10 @@ const reducer  = (state = initialState, action) => {
     case 'FETCH_PREDICTIONS_SUCCESS':
       return {
         ...state,
-        predictions: action.predictions,
         errorMessage: '',
         isLoading: false,
+        predictions: action.predictions,
+        time: action.time,
       }
     case 'addText':
       return {

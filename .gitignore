@@ -23,9 +23,6 @@ node_modules
 # testing
 lm_web_api/gpt-2-ui/coverage
 
-# production
-lm_web_api/gpt-2-ui/build
-
 # misc
 .DS_Store
 .env.local

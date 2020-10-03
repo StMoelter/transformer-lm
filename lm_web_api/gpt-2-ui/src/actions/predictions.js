@@ -15,10 +15,11 @@ export function fetchPredictionsLoading(bool) {
   }
 }
 
-export function fetchPredictionsSuccess(predictions) {
+export function fetchPredictionsSuccess(predictions, time) {
   return {
     type: 'FETCH_PREDICTIONS_SUCCESS',
-    predictions: predictions
+    predictions: predictions,
+    time: time
   }
 }
 
@@ -27,7 +28,7 @@ export function fetchPredictions(data) {
     dispatch(fetchPredictionsLoading(true));
     const url = 'http://localhost:8000/gpt2'
     const headers = { headers: { Authorization: 'Bearer 337b14a7-5865-4b24-a2f0-44d98133c860' }}
-    // const params = { text: "Es war einmal eine Prinzessin, die hatte eine kleine Ente." }
+    // const params = { text: "Es war einmal eine kleine Prinzessin, die hatte eine goldene Ente." }
     const params = {
       text: data.sampletext + ' ' + data.generatedtext,
       params: {
@@ -45,7 +46,7 @@ export function fetchPredictions(data) {
           }
           return response
         })
-        .then((response) => dispatch(fetchPredictionsSuccess(response.data.result.predictions)))
+        .then((response) => dispatch(fetchPredictionsSuccess(response.data.result.predictions, response.data.time)))
         .catch(() => dispatch(fetchPredictionsError(true, 'Unknown Error')))
   }
 }

@@ -7,12 +7,14 @@ import Spinner from 'react-bootstrap/Spinner';
 import TextSelector from 'text-selection-react'
 
 import { connect } from "react-redux";
-import { fetchPredictions } from '../actions/predictions'
+import { v4 as uuidv4 } from 'uuid';
+
 
 class Predictions extends React.Component {
   constructor (props, context) {
     super(props, context)
-    this.state = {}
+    this.metaData = this.metaData.bind(this)
+    this.showPrediction = this.showPrediction.bind(this)
   }
 
   showPredictions() {
@@ -23,7 +25,7 @@ class Predictions extends React.Component {
 
   showPrediction(prediction) {
     return (
-      <Card.Body>
+      <Card.Body key={uuidv4()}>
         <div className="d-flex">
           <div className="p-2">
             {prediction}
@@ -42,11 +44,19 @@ class Predictions extends React.Component {
     )
   }
 
+  metaData() {
+    const amount_of_predictions = this.props.predictions.length
+    if(amount_of_predictions == 0) {
+      return ''
+    }
+    return ` ( time: ${this.props.time} | amount: ${amount_of_predictions} )`
+  }
+
   render() {
     return (
       <Row className="mt-3"><Col>
         <Card>
-          <Card.Header>Predictions</Card.Header>
+          <Card.Header>Predictions{this.metaData()}</Card.Header>
           {this.showPredictions()}
         </ Card>
       </Col></Row>
@@ -57,6 +67,7 @@ class Predictions extends React.Component {
 const mapStateToProps = state => ({
   isLoading: state.isLoading,
   predictions: state.predictions,
+  time: state.time,
 })
 
 const mapDispatchToProps = dispatch => {

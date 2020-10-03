@@ -30,7 +30,7 @@ class Generator extends React.Component {
           this.props.isLoading ?
             <Button variant="primary" disabled>
               <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
-              Loading...
+              &nbsp; Loading...
             </Button>
           : <Button as="input" type="submit" value="Generate" size="lg" onClick={ this.loadPredictions }/>
         }
