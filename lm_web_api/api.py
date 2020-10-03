@@ -21,10 +21,10 @@ auth = HTTPTokenAuth(scheme='Bearer')
 def verify_token(token):
     return token == AUTH_TOKEN
 
-
-@app.route("/")
-def hello():
-     return "Hello, World!"
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    return 'You want path: %s' % path
 
 @app.route('/gpt2', methods=['POST'])
 @auth.login_required
