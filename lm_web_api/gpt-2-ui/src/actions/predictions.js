@@ -1,5 +1,15 @@
 import axios from 'axios'
 
+const urlForGpt2 = () => {
+  if (process.env.NODE_ENV === 'development') {
+    return  'http://localhost:8000/gpt2'
+  } else {
+    return window.location.origin + '/gpt2'
+  }
+}
+const url = urlForGpt2()
+
+
 export function fetchPredictionsError(bool, message) {
   return {
     type: 'FETCH_PREDICTIONS_ERROR',
@@ -26,7 +36,7 @@ export function fetchPredictionsSuccess(predictions, time) {
 export function fetchPredictions(data) {
   return (dispatch) => {
     dispatch(fetchPredictionsLoading(true));
-    const url = 'http://localhost:8000/gpt2'
+    // const url = 'http://localhost:8000/gpt2'
     const headers = { headers: { Authorization: 'Bearer 337b14a7-5865-4b24-a2f0-44d98133c860' }}
     // const params = { text: "Es war einmal eine kleine Prinzessin, die hatte eine goldene Ente." }
     const params = {
