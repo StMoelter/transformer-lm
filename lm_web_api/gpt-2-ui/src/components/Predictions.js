@@ -3,8 +3,6 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import React from 'react';
-import Spinner from 'react-bootstrap/Spinner';
-import TextSelector from 'text-selection-react'
 
 import { connect } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
@@ -46,7 +44,7 @@ class Predictions extends React.Component {
 
   metaData() {
     const amount_of_predictions = this.props.predictions.length
-    if(amount_of_predictions == 0) {
+    if(amount_of_predictions === 0) {
       return ''
     }
     return ` ( time: ${this.props.time} | amount: ${amount_of_predictions} )`

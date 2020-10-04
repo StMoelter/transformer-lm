@@ -24,7 +24,7 @@ def verify_token(token):
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    if path == '/':
+    if path == '/' or path == '':
         path = 'index.html'
     return send_from_directory('gpt-2-ui/build', path)
 

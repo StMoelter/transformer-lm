@@ -22,7 +22,7 @@ class Temperature extends React.Component {
   }
 
   resetValue = (event) => {
-    const setTemperature = this.props.resetTemperature()
+    this.props.resetTemperature()
     event.target.blur()
   }
 
