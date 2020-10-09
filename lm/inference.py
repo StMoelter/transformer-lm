@@ -30,10 +30,10 @@ class ModelWrapper:
         hparams.setdefault('n_hidden', hparams['n_embed'])
         pkl_path = root / 'model.pkl'
         if pkl_path.exists():
-            model = torch.load(pkl_path, map_location='cpu')
+            model = torch.load(pkl_path, map_location='cuda')
         else:
-            model = Model(HParams(**hparams))
-            state = torch.load(root / 'model.pt', map_location='cpu')
+            model = Model(HParams(**hparams)).to('cuda')
+            state = torch.load(root / 'model.pt', map_location='cuda')
             state_dict = fixed_state_dict(state['state_dict'])
             model.load_state_dict(state_dict)
             if 'seen_tokens' in state:
@@ -64,7 +64,7 @@ class ModelWrapper:
         if len(tokens) > self.model.hparams.n_ctx:
             raise ValueError
         ids = [self.token_to_id(t) for t in tokens]
-        ctx = torch.LongTensor(ids).unsqueeze(0)
+        ctx = torch.LongTensor(ids).to('cuda').unsqueeze(0)
         with torch.no_grad():
             output = self.model(ctx, past=past)
             logits = output['logits'].squeeze(0)
