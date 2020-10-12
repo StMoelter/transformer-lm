@@ -32,7 +32,7 @@ class ModelApiConnector:
         return {
             "amount_of_predictions": self.normalize_i(params, 'amount_of_predictions', 1, 10, 3),
             "tokens_to_generate": self.normalize_i(params, 'tokens_to_generate', 5, 40, 20),
-            "top_k": self.normalize_i(params, 'top_k', 0, 20, 5),
+            "top_k": self.normalize_i(params, 'top_k', 1, 20, 5),
             "top_p": self.normalize_i(params, 'top_p', 0, 20, 0),
             "temperature": self.normalize_f(params, 'temperature', 0.0, 2.0, 1.0),
         }

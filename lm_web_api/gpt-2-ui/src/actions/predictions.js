@@ -44,7 +44,7 @@ export function fetchPredictions(data) {
       params: {
         amount_of_predictions: data.amountOfPredictions,
         temperature: data.temperature,
-        topk_k: data.topk,
+        top_k: data.topk,
         tokens_to_generate: data.tokens,
       }
     }
