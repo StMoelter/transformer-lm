@@ -14,6 +14,10 @@ from .common import END_OF_LINE, END_OF_TEXT, WORD_START
 class ModelWrapper:
     END_OF_LINE = END_OF_LINE
     END_OF_TEXT = END_OF_TEXT
+    if torch.cuda.is_available():
+        DEVICE = torch.device('cuda')
+    else:
+        DEVICE = torch.device('cpu')
 
     def __init__(self, model: Model, sp_model: spm.SentencePieceProcessor,
                  params: Optional[Dict]):
@@ -30,10 +34,10 @@ class ModelWrapper:
         hparams.setdefault('n_hidden', hparams['n_embed'])
         pkl_path = root / 'model.pkl'
         if pkl_path.exists():
-            model = torch.load(pkl_path, map_location='cuda')
+            model = torch.load(pkl_path, map_location=cls.DEVICE)
         else:
-            model = Model(HParams(**hparams)).to('cuda')
-            state = torch.load(root / 'model.pt', map_location='cuda')
+            model = Model(HParams(**hparams)).to(cls.DEVICE)
+            state = torch.load(root / 'model.pt', map_location=cls.DEVICE)
             state_dict = fixed_state_dict(state['state_dict'])
             model.load_state_dict(state_dict)
             if 'seen_tokens' in state:
@@ -64,7 +68,7 @@ class ModelWrapper:
         if len(tokens) > self.model.hparams.n_ctx:
             raise ValueError
         ids = [self.token_to_id(t) for t in tokens]
-        ctx = torch.LongTensor(ids).to('cuda').unsqueeze(0)
+        ctx = torch.LongTensor(ids).to(self.DEVICE).unsqueeze(0)
         with torch.no_grad():
             output = self.model(ctx, past=past)
             logits = output['logits'].squeeze(0)
