@@ -12,6 +12,16 @@ const reducer  = (state = initialState, action) => {
         ...state,
         topk: initialState.topk,
       }
+      case 'setAmountOfPredictions':
+        return {
+          ...state,
+          amountOfPredictions: action.amountOfPredictions,
+        }
+      case 'resetAmountOfPredictions':
+        return {
+          ...state,
+          amountOfPredictions: initialState.amountOfPredictions,
+        }
     case 'setTokens':
       return {
         ...state,

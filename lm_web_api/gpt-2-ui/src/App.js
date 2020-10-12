@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import GeneratedText from './components/GeneratedText'
 import Generator from './components/Generator'
 import Predictions from './components/Predictions'
+import PredictionsSlider from './components/PredictionsSlider'
 import SampleText from './components/SampleText'
 import Temperature from './components/Temperature'
 import TopK from './components/TopK'
@@ -30,6 +31,7 @@ function App() {
         <Col><TopK /></Col>
         <Col><Temperature /></Col>
         <Col><Tokens /></Col>
+        <Col><PredictionsSlider /></Col>
       </Row>
     </Container>
   );

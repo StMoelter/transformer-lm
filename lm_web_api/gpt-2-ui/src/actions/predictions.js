@@ -42,7 +42,7 @@ export function fetchPredictions(data) {
     const params = {
       text: data.sampletext + ' ' + data.generatedtext,
       params: {
-        amount_of_predictions: data.amountOfPredictions || 5,
+        amount_of_predictions: data.amountOfPredictions,
         temperature: data.temperature,
         topk_k: data.topk,
         tokens_to_generate: data.tokens,

@@ -14,6 +14,7 @@ class Generator extends React.Component {
 
   loadPredictions() {
     this.props.fetchPredictions({
+      amountOfPredictions: this.props.amountOfPredictions,
       generatedtext: this.props.generatedtext,
       sampletext: this.props.sampletext,
       temperature: this.props.temperature,
@@ -41,6 +42,7 @@ class Generator extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  amountOfPredictions: state.amountOfPredictions,
   isLoading: state.isLoading,
   generatedtext: state.generatedtext,
   sampletext: state.sampletext,
